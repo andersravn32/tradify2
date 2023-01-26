@@ -1,30 +1,27 @@
 const { MongoClient } = require("mongodb");
+var connection = null;
 
-class Database {
-  #connection = null;
-
-  async connect() {
+module.exports = {
+  connect: async () => {
     // Create database connection object
-    this.#connection = await MongoClient.connect(process.env.MONGODB);
+    connection = await MongoClient.connect(process.env.MONGODB);
 
-    if (!this.#connection) {
+    if (!connection) {
       throw Error("Failed to connect to database");
     }
 
     // Return connection object
-    return this.#connection;
-  }
+    return connection;
+  },
 
-  get() {
-    if (!this.#connection) {
+  get: () => {
+    if (!connection) {
       throw Error(
         "No connection has been initialized. Call connect method first"
       );
     }
 
     // Return connection object
-    return this.#connection;
+    return connection;
   }
-}
-
-module.exports = new Database();
+};
