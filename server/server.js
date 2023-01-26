@@ -2,16 +2,17 @@ const express = require("express");
 const http = require("http");
 const morgan = require("morgan");
 const app = express();
-const server = http.createServer(app);
 const dotenv = require("dotenv");
 const cors = require("cors");
 const database = require("./utilities/database");
 const compose = require("./utilities/composer");
+const server = http.createServer(app);
 
 const init = async () => {
   // Initialise dotenv
   dotenv.config();
   
+  // Create database connection pool
   compose.log("init", "Creating database connection pool");
   const db = await database.connect();
 
@@ -44,4 +45,5 @@ const init = async () => {
   });
 };
 
+// Initialize the server
 init();
